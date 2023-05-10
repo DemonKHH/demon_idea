@@ -101,77 +101,95 @@ class NavigationDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 100.0,
+        width: 80.0,
         child: Flex(
           direction: Axis.vertical,
           children: [
             Expanded(
               flex: 1,
               child: Container(
-                color: Colors.red,
-                child: Center(
-                  child: Text(
-                    '顶部',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Column(
+                    children: const [
+                      Icon(
+                        Icons.tips_and_updates_outlined,
+                        size: 30,
+                        color: Colors.black,
+                      ),
+                    ],
+                  )),
             ),
             Expanded(
               flex: 2,
-              child: Container(
-                color: Colors.green,
-                child: Center(
-                  child: Text(
-                    '中间',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      color: Colors.white,
-                    ),
-                  ),
+              child: Center(
+                child: MyIconButtonList(
+                  iconDataList: const [
+                    Icons.science_outlined,
+                    Icons.settings_outlined,
+                  ],
+                  selectedIndex: currentIndex,
+                  onChangeIndex: (int value) {
+                    onTap(value);
+                  },
                 ),
               ),
             ),
             Expanded(
               flex: 1,
-              child: Container(
-                color: Colors.blue,
-                child: Center(
-                  child: Text(
-                    '底部',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      color: Colors.white,
-                    ),
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: IconButton(
+                    icon: const Icon(Icons.logout_outlined),
+                    onPressed: () {},
                   ),
                 ),
               ),
             ),
           ],
         ),
-        // child: ListView(
-        //   children: [
-        //     ListTile(
-        //       title: const Text('页面 1'),
-        //       selected: currentIndex == 0,
-        //       onTap: () => onTap(0),
-        //     ),
-        //     ListTile(
-        //       title: const Text('页面 2'),
-        //       selected: currentIndex == 1,
-        //       onTap: () => onTap(1),
-        //     ),
-        //     ListTile(
-        //       title: const Text('页面 3'),
-        //       selected: currentIndex == 2,
-        //       onTap: () => onTap(2),
-        //     ),
-        //   ],
-        // ),
       ),
+    );
+  }
+}
+
+class MyIconButtonList extends StatefulWidget {
+  final int selectedIndex;
+  final List<IconData> iconDataList;
+  final ValueChanged<int> onChangeIndex;
+  MyIconButtonList(
+      {super.key,
+      required this.iconDataList,
+      required this.selectedIndex,
+      required this.onChangeIndex});
+
+  @override
+  _MyIconButtonListState createState() => _MyIconButtonListState();
+}
+
+class _MyIconButtonListState extends State<MyIconButtonList> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widget.iconDataList.asMap().entries.map((entry) {
+        final int index = entry.key;
+        final IconData iconData = entry.value;
+        return IconButton(
+          icon: Icon(iconData),
+          color: widget.selectedIndex == index ? Colors.blue : Colors.grey,
+          onPressed: () {
+            // 通过回调函数将当前点击的按钮索引传递给父组件
+            widget.onChangeIndex(index);
+          },
+        );
+      }).toList(),
     );
   }
 }
