@@ -110,8 +110,8 @@ class NavigationDrawer extends StatelessWidget {
               child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: const [
+                  child: const Column(
+                    children: [
                       Icon(
                         Icons.tips_and_updates_outlined,
                         size: 30,
@@ -181,14 +181,16 @@ class _MyIconButtonListState extends State<MyIconButtonList> {
       children: widget.iconDataList.asMap().entries.map((entry) {
         final int index = entry.key;
         final IconData iconData = entry.value;
-        return IconButton(
-          icon: Icon(iconData),
-          color: widget.selectedIndex == index ? Colors.blue : Colors.grey,
-          onPressed: () {
-            // 通过回调函数将当前点击的按钮索引传递给父组件
-            widget.onChangeIndex(index);
-          },
-        );
+        return Container(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: IconButton(
+              icon: Icon(iconData),
+              color: widget.selectedIndex == index ? Colors.blue : Colors.grey,
+              onPressed: () {
+                // 通过回调函数将当前点击的按钮索引传递给父组件
+                widget.onChangeIndex(index);
+              },
+            ));
       }).toList(),
     );
   }
