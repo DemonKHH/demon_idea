@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_meedu_videoplayer/meedu_player.dart';
 
@@ -11,13 +10,14 @@ class BasicExamplePage extends StatefulWidget {
 }
 
 class _BasicExamplePageState extends State<BasicExamplePage> {
-  final _meeduPlayerController = MeeduPlayerController(
+  final MeeduPlayerController _meeduPlayerController = MeeduPlayerController(
     controlsStyle: ControlsStyle.primary,
     enabledButtons: const EnabledButtons(pip: true),
     // enabledControls: const EnabledControls(doubleTapToSeek: false),
     pipEnabled: true,
   );
-
+  final TextEditingController _urlController = TextEditingController(text: "https://movietrailers.apple.com/movies/paramount/the-spongebob-movie-sponge-on-the-run/the-spongebob-movie-sponge-on-the-run-big-game_h720p.mov");
+  bool _downloading = false;
   StreamSubscription? _playerEventSubs;
 
   @override
@@ -36,26 +36,71 @@ class _BasicExamplePageState extends State<BasicExamplePage> {
   }
 
   _init() async {
+    String url = _urlController.text.trim();
     await _meeduPlayerController.setDataSource(
-        DataSource(
-          type: DataSourceType.network,
-          source:
-              "https://movietrailers.apple.com/movies/paramount/the-spongebob-movie-sponge-on-the-run/the-spongebob-movie-sponge-on-the-run-big-game_h720p.mov",
-        ),
-        autoplay: true,
-        looping: false);
+      DataSource(
+        type: DataSourceType.network,
+        source: url,
+      ),
+      autoplay: true,
+      looping: false,
+    );
+  }
+
+  Future<void> _downloadVideo() async {
+    String url = _urlController.text.trim();
+
+    if (url.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _downloading = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
-        child: AspectRatio(
-          aspectRatio: 16 / 9,
-          child: MeeduVideoPlayer(
-            controller: _meeduPlayerController,
-          ),
+        child: Column(
+          children: [
+            Expanded(
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: MeeduVideoPlayer(
+                  controller: _meeduPlayerController,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _urlController,
+                decoration: const InputDecoration(
+                  labelText: 'Video URL',
+                ),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  _init();
+                },
+                child: const Text('play'),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _downloading ? null : _downloadVideo,
+                child: _downloading
+                    ? const CircularProgressIndicator()
+                    : const Text('Download'),
+              ),
+            ),
+          ],
         ),
       ),
     );
