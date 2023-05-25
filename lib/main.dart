@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meedu_videoplayer/meedu_player.dart';
 
-import 'home/index.dart';
+import 'pages/home/index.dart';
 
 void main() {
+  initMeeduPlayer();
   runApp(const MyApp());
 }
 
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

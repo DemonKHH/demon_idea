@@ -1,5 +1,5 @@
-import 'package:demon_idea/check_in/index.dart';
-import 'package:demon_idea/video/index.dart';
+import 'package:demon_idea/pages/check_in/index.dart';
+import 'package:demon_idea/pages/video/index.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: PageView(
                 controller: _pageController,
-                children: [
+                children: const [
                   CheckInPage(),
                   BasicExamplePage()
                 ],
@@ -79,8 +79,8 @@ class NavigationDrawer extends StatelessWidget {
               child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 20),
-                  child: const Column(
-                    children: [
+                  child: Column(
+                    children: const [
                       Icon(
                         Icons.tips_and_updates_outlined,
                         size: 30,
