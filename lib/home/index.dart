@@ -1,3 +1,5 @@
+import 'package:demon_idea/check_in/index.dart';
+import 'package:demon_idea/video/index.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,41 +47,8 @@ class _HomePageState extends State<HomePage> {
               child: PageView(
                 controller: _pageController,
                 children: [
-                  Container(
-                    child: const Center(
-                      child: Text(
-                        '页面 1',
-                        style: TextStyle(
-                          fontSize: 36.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    color: Colors.green,
-                    child: const Center(
-                      child: Text(
-                        '页面 2',
-                        style: TextStyle(
-                          fontSize: 36.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    child: const Center(
-                      child: Text(
-                        '页面 3',
-                        style: TextStyle(
-                          fontSize: 36.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
+                  CheckInPage(),
+                  BasicExamplePage()
                 ],
               ),
             ),
